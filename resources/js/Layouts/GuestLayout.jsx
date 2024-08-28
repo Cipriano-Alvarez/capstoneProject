@@ -1,25 +1,32 @@
 import NavLink from "@/Components/NavLink";
 
-export default function GuestLayout({children}){
-    return(
-    <main>
-        <header>
-            <h1>FootyForecast</h1>
-            <div>
-                <nav>
-                    <ul>
-                        <li><NavLink href={route("home")} active={route().current("home")}>Home</NavLink></li>
-                        <li><NavLink href="#" >Premier League</NavLink></li>
-                        <li><NavLink href="#" >Bets</NavLink></li>
-                        <li><NavLink href="#">Login</NavLink></li>
-                        <li><NavLink href="#">Sign Up</NavLink></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
-        <section>
-            {children}
-        </section>
-    </main>
+export default function GuestLayout({ children }) {
+    return (
+        <main>
+            <header className="mb-10 ">
+                <h1 className="text-3xl mt-5 ml-3">FootyForecast</h1>
+                <div className="mt-5 bg-gray-50 pt-5 pb-5 rounded">
+                    <nav>
+                        <ul className="grid grid-cols-3">
+                            <div className="flex flex-row col-start-1 col-end-2 ml-3">
+                                <li><NavLink className="text-xl mr-3" href={route("home")} active={route().current("home")}>Home</NavLink></li>
+                                <li><NavLink className="text-xl mr-3" href="#" >Premier League</NavLink></li>
+                                <li><NavLink className="text-xl" href="#" >Bets</NavLink></li>
+                            </div>
+                            <div className="flex flex-row col-start-3 justify-end mr-14">
+                                <li><NavLink className="text-xl" href="#">Login</NavLink></li>
+                                <li><NavLink className="text-xl ml-3" href="#">Sign Up</NavLink></li>
+                            </div>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+            <section className="mb-14">
+                {children}
+            </section>
+            <footer className="flex bg-gray-50 justify-center content-end">
+                <h4 className="">This webpage Was created by Cipriano Alvarez</h4>
+            </footer>
+        </main>
     )
 }
