@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get("/", function(){
-    return Inertia::render("Welcome");
-})->name("Welcome");
+    return Inertia::render("Home");
+})->name("Home");
 
 require __DIR__.'/auth.php';
