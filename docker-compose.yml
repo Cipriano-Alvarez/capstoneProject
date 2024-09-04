@@ -62,7 +62,7 @@ services:
             MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
             PMA_HOST: mysql
         networks:
-         - sail
+            - sail
     
     redis:
         image: 'redis:alpine'
