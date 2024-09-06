@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('bets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignIdFor(User::class);
+            $table->set('outcome',['correct','incorrect','tbd']);
+            
         });
     }
 

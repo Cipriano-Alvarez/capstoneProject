@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('reported_posts', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Post::class);
+            $table->foreignIdFor(User::class);
+            $table->foreignId('reported_user_id');
+            
             $table->timestamps();
         });
     }

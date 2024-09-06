@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('article', function (Blueprint $table) {
             $table->id();
+            $table->string('title',length:50);
+            $table->text('website_link');
+            $table->text('description');
             $table->timestamps();
         });
     }

@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('match', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->unsignedBigInteger('team_id_one');
+            $table->unsignedBigInteger('team_id_two');
+            $table->set('match_result',['home_win','home_loss','draw']);
         });
     }
 
