@@ -1,5 +1,8 @@
 import NavLink from "@/Components/NavLink";
 
+
+//this page acts as the deault layout for when users are not logged in routes all still need to be made
+
 export default function GuestLayout({ children }) {
     return (
         <main>
@@ -14,8 +17,8 @@ export default function GuestLayout({ children }) {
                                 <li><NavLink className="text-xl" href="#" >Bets</NavLink></li>
                             </div>
                             <div className="flex flex-row col-start-3 justify-end mr-14">
-                                <li><NavLink className="text-xl" href="#">Login</NavLink></li>
-                                <li><NavLink className="text-xl ml-3" href="#">Sign Up</NavLink></li>
+                                <li><NavLink className="text-xl" href={route("login")} active={route().current("login")}>Login</NavLink></li>
+                                <li><NavLink className="text-xl ml-3" href={route("signup")} active={route().current("signup")}>Sign Up</NavLink></li>
                             </div>
                         </ul>
                     </nav>
