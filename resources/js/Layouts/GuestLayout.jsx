@@ -5,7 +5,8 @@ import NavLink from "@/Components/NavLink";
 
 export default function GuestLayout({ children }) {
     return (
-        <main>
+
+        <main className="flex flex-col min-h-screen">
             <header className="mb-10 ">
                 <h1 className="text-3xl mt-5 ml-3">FootyForecast</h1>
                 <div className="mt-5 bg-gray-50 pt-5 pb-5 rounded">
@@ -27,8 +28,8 @@ export default function GuestLayout({ children }) {
             <section className="mb-14">
                 {children}
             </section>
-            <footer className="flex bg-gray-50 justify-center content-end">
-                <h4 className="">This webpage Was created by Cipriano Alvarez</h4>
+            <footer className=" bg-gray-50 text-center mt-auto">
+                <h4 className="text-center">This webpage Was created by Cipriano Alvarez</h4>
             </footer>
         </main>
     )
