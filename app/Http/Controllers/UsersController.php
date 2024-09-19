@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Inertia\Inertia;
@@ -48,6 +49,11 @@ class UsersController extends Controller
         $user->age = $request->input("age");
 
         $user->save();
+
+        $role = New Role;
+        $role->user_id = $user->id;
+        $role->role = "user";
+        $role->save();
 
         return redirect()->route('login');
     }
