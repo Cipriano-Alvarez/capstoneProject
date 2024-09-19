@@ -5,26 +5,25 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SoccerApiController;
 
-Route::get("/", function(){
-    return Inertia::render("Home");
-})->name("home");
+Route::get("/", [SoccerApiController::class,'home'])->name("home");
 
-Route::get("/login",function(){
-    return Inertia::render("Login");
-})->name("login")->middleware('guest');
 
-Route::get("/signup",function(){
-    return Inertia::render("SignUp");
-})->name("signup")->middleware('guest');
 
-//code will be used when the user controller is up and runnings
-// Route::controller(Users::class)->group(function(){
-//     Route::get('/login','login')->name('login');
-//     Route::get('/signup','signup')->name('signup');
-//     Route::post('/newuser','newUser');
-// })->middleware('guest');
+
+Route::controller(UsersController::class)->group(function(){
+    Route::get('/login','login')->name('login');
+    Route::get('/signup','signup')->name('signup');
+    Route::post('/signup','newUser');
+    Route::post('/login','loginUser');
+})->middleware('guest');
+
+Route::controller(UsersController::class)->group(function(){
+    Route::post("/logout",'logoutUser');
+})->middleware('auth');
+
+
 require __DIR__.'/auth.php';
 
-Route::post("/signup",[UsersController::class,'newUser' ]);
-Route::post("/login",[UsersController::class,'loginUser']);
+

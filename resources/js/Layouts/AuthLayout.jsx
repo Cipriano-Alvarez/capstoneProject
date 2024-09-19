@@ -25,7 +25,7 @@ export default function AuthLayout({ children, name }) {
                                 <li><NavLink className="text-xl" href="#" >Bets</NavLink></li>
                             </div>
                             <div className="flex flex-row col-start-3 justify-end mr-14">
-                                <li className="">Hello {name}</li>
+                                <li className="mr-10 text-xl font-medium">Hello {name}</li>
                                 <li><NavLink onClick={logout} className="text-xl" href="#" >Logout</NavLink></li>
                             </div>
                         </ul>
