@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Favourite;
+use App\Models\Team;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Inertia\Inertia;
@@ -38,6 +40,10 @@ class UserAccountController extends Controller
         return redirect()->route('login');
     }
 
+
+    }
+
+    public function grabFavouriteTeams(){
 
     }
 }
