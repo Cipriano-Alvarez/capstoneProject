@@ -18,10 +18,16 @@ use Illuminate\Support\Facades\Auth;
 class UsersController extends Controller
 {
     public function login(){
-        return Inertia::render('Login');
+        if(!Auth::check()){
+        return Inertia::render('Login');}else{
+            return redirect()->route('home');
+        }
     }
     public function signup(){
-        return Inertia::render('SignUp');
+        if(!Auth::check()){
+        return Inertia::render('SignUp');}else{
+            return redirect()->route('home');
+        }
     }
 
     public function newUser(Request $request){

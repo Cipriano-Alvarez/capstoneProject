@@ -31,5 +31,6 @@ class SoccerApiController extends Controller
         return Inertia::render('Home',[
            'results'=> $request->json()
         ]);
+        
     }
 }

@@ -13,7 +13,18 @@ use Illuminate\Support\Facades\Auth;
 
 class UserAccountController extends Controller
 {
+
+/***
+ * TO DO
+ * Create the sub pages (rest password, change email , favorites etc)
+ * Flesh out admin page
+ * Test out functionality for the admin pages
+ * Create an Admin
+ * 
+ */
+
     public function accountPage(){
+        if(Auth::check()){
         $user = Auth::user();
         $role = Role::where('user_id','=',4)->first();
         $userRole = $role->id;
@@ -21,8 +32,11 @@ class UserAccountController extends Controller
         if($role->role =='admin'){
             return;
         }else{
-            return Inertia::render("UserAccount");
+            return Inertia::render("AccountPages/UserAccount");
         }
+    }else{
+        return redirect()->route('login');
+    }
 
 
     }
