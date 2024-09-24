@@ -26,6 +26,9 @@ Route::controller(UsersController::class)->group(function(){
 
 Route::controller(UserAccountController::class)->group(function(){
     Route::get('/account','accountPage')->name('account');
+    Route::get('/account/{id}','getFavouriteTeamInformation');
+    Route::get('/account/email/updateEmail','accountEmailPage')->name("updateEmail");
+    Route::post('/account/updateEmail','updateEmail');
 })->middleware("auth");
 require __DIR__.'/auth.php';
 
