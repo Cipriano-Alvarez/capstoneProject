@@ -1,5 +1,5 @@
 import AuthLayout from "@/Layouts/AuthLayout";
-import UserAccountSideNav from "./shared/UserAccountSideNav";
+import AdminAccountSideNav from "./Shared/AdminAccounSideNav";
 import { usePage } from "@inertiajs/react";
 import { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
@@ -7,7 +7,7 @@ import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { router } from "@inertiajs/react";
 
-export default function UserAccountPassword(Auth){
+export default function AdminAccountPassword(Auth){
     const props = usePage().props;
     const [password,onChangePassword] = useState("");
     const [confirm_password,onChangeConfirmPassword] = useState("");
@@ -21,7 +21,7 @@ export default function UserAccountPassword(Auth){
         className="relative"
         >
             <div className="grid grid-cols-5">
-                <UserAccountSideNav Name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]}/>
+                <AdminAccountSideNav Name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]}/>
                 <div className="col-span-4">
                     <h1 className="text-3xl text-center">Update Password</h1>
                     <form className="text-center mt-10" onSubmit={handlesubmit}>

@@ -29,18 +29,17 @@ function ShowTeamInfo({Fixtures,Record,MatchHistory}){
         
         <div className="mt-10">
             <div>
-            {console.log(MatchHistory)}
                 <ul className="inline-flex space-x-2">
                     {Fixtures["response"].map((item,index)=>(
                         <li className="inline-flex space-x-2 border-2" key={index}>
                             <div className="size-11">
                             {item["teams"]["home"]["id"] ==40 ? <img className="ps-2 size-10 pe-2 pt-2" src={item["teams"]["home"]["logo"]}/>:<img className="ps-2 pe-2 pt-2" src={item["teams"]["home"]["logo"]}/> }
-                                {/* <p>{item["teams"]["home"]["name"]}</p> */}
+                                
                             </div>
                             <p className="pt-2">vs</p>
                             <div className="size-11 ">
                                 {item["teams"]["away"]["id"] ==40 ? <img className="ps-2 size-10 pe-2 pt-2" src={item["teams"]["away"]["logo"]}/>:<img className="ps-2 pe-2 pt-2" src={item["teams"]["away"]["logo"]}/> }
-                                {/* <p>{item["teams"]["away"]["name"]}</p> */}
+                                
                             </div>
                         </li>
                     ))}

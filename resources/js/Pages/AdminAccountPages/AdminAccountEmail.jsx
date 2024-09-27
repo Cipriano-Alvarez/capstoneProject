@@ -1,5 +1,5 @@
 import AuthLayout from "@/Layouts/AuthLayout";
-import UserAccountSideNav from "./shared/UserAccountSideNav";
+import AdminAccountSideNav from "./Shared/AdminAccounSideNav";
 import { useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
@@ -13,14 +13,14 @@ export default function UserAccountEmail(Auth){
 
     function handlesubmit(e){
         e.preventDefault()
-        router.put('/account/updateEmail',{'email':email});
+        router.put('/adminAccount/updateEmail',{'email':email});
     }
 
     return(
         
         <AuthLayout name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]}   className="relative">
             <div className="grid grid-cols-5">
-            <UserAccountSideNav
+            <AdminAccountSideNav
             Name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]}
 
             />

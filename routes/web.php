@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SoccerApiController;
 use App\Http\Controllers\UserAccountController;
+use App\Http\Controllers\AdminAccountController;
+
 
 Route::get("/", [SoccerApiController::class,'home'])->name("home");
 
@@ -27,9 +29,25 @@ Route::controller(UsersController::class)->group(function(){
 Route::controller(UserAccountController::class)->group(function(){
     Route::get('/account','accountPage')->name('account');
     Route::get('/account/{id}','getFavouriteTeamInformation');
-    Route::get('/account/email/updateEmail','accountEmailPage')->name("updateEmail");
-    Route::post('/account/updateEmail','updateEmail');
+    Route::get('/account/email/updateEmail','accountEmailPage')->name('updateEmail');
+    Route::put('/account/updateEmail','updateEmail');
+    Route::get('/account/password/updatePassword','accountPasswordPage')->name('newPassword');
+    Route::put('/account/updatePassword','updatePassword');
+    Route::get('/account/favourites/updateFavourites','accountFavouritePage')->name('favourites');
+    Route::delete('/account/favourite/{id}','deleteFavourite');
+
 })->middleware("auth");
+
+Route::controller(AdminAccountController::class)->group(function(){
+    Route::get('/adminAccount','adminAccount')->name('admin');
+    Route::put('/adminAccount/updatePassword','UpdatePassword');
+    Route::get('/adminAccount/password/UpdatePassword','AdminPasswordPage')->name('updatePassword');
+    Route::get('/adminAccount/email/UpdateEmail','EmailPage')->name('updateEmail');
+    Route::put('/adminAccount/updateEmail','UpdateEmail');
+    Route::get('/adminAccount/user/updateUser','UpdateUserPage')->name("updateUser");
+    Route::get('/adminAccount/user/grabUser/{email}','GrabUser');
+    Route::put('/adminAccount/user/updateUser','UpdateUser');
+});
 require __DIR__.'/auth.php';
 
 

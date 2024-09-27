@@ -6,8 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
 
-//loggin page
-//loggin in page won't render, assuming problem has to do with the fact that laravel comes with a predefined login page
+
 
 const login = (errors) =>{
     const [email, onChangeEmail] = useState("")
@@ -17,7 +16,6 @@ const login = (errors) =>{
     function handlesubmit(e){
         e.preventDefault();
         var values = {'email':email,'password':password}
-        console.log(values);
         router.post('/login',values)
     }
 

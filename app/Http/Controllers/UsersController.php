@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\View\View;
+
 use Inertia\Inertia;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
@@ -48,18 +48,19 @@ class UsersController extends Controller
 
 
         $user = new User;
-        $user->first_name = $request->input("firstName");
-        $user->last_name = $request->input("lastName");
-        $user->password = Hash::make($request->input("password"));
-        $user->email = $request->input("email");
-        $user->age = $request->input("age");
+        $user->first_name = $validated['firstName'];
+        $user->last_name = $validated["lastName"];
+        $user->password = Hash::make($validated["password"]);
+        $user->email = $validated["email"];
+        $user->age = $validated["age"];
+        $userRole = Role::where('role','user')->first();
+        $user->role_id = $userRole->id;
 
         $user->save();
 
-        $role = New Role;
-        $role->user_id = $user->id;
-        $role->role = "user";
-        $role->save();
+        
+
+        
 
         return redirect()->route('login');
     }

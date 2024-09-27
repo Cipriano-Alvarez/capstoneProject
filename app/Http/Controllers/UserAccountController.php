@@ -9,11 +9,11 @@ use App\Models\Role;
 use App\Models\Favorite;
 use App\Models\Team;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\View\View;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class UserAccountController extends Controller
 {
@@ -30,17 +30,16 @@ class UserAccountController extends Controller
     public function accountPage(){
         if(Auth::check()){
         $user = Auth::user();
-        $role = Role::where('user_id','=',$user->id)->first();
-        $userRole = $role->id;
+        $role = Role::where('id','=',$user->role_id)->first();
+        
 
-        if($role->role =='admin'){
-            return;
-        }else{
-            
+        if($role->role =='user'){
             $favTeams = $this->grabFavouriteTeams($user->id);
             return Inertia::render("AccountPages/UserAccount",[
                 'favTeams' => $favTeams,
             ]);
+        }else{
+            return redirect()->route('admin');
         }
     }else{
 
@@ -49,6 +48,9 @@ class UserAccountController extends Controller
 
 
     }
+
+    //this function takes the user id and grabs a collection of all the Favorites items in the Favorite model
+    //and returns an array of premier league team infortion coresponding the the user's favourite teams
 
     public function grabFavouriteTeams($id){
         $teamArray = [];
@@ -63,6 +65,8 @@ class UserAccountController extends Controller
         return $teamArray;
     }
 
+    //this function takes an Id that matches a premier league team id in soccer api and grabs the information
+    //From the Api
     public function grabTeamFromApi($id){
         $request = Http::withHeaders([
             'x-rapidapi-host' => 'v3.football.api-sports.io',
@@ -73,6 +77,7 @@ class UserAccountController extends Controller
         ]);
         return $request->json();
     }
+    //this function grabs all the team information for when a user clicks on a team from his account page
     public function getFavouriteTeamInformation($id){
 
 
@@ -80,8 +85,6 @@ class UserAccountController extends Controller
         if(Auth::check()){
 
             $user = Auth::user();
-            $role = Role::where('user_id','=',$user->id)->first();
-            $userRole = $role->id;
 
             $nextFixtures = Http::withHeaders([
                 'x-rapidapi-host' => 'v3.football.api-sports.io',
@@ -132,7 +135,8 @@ class UserAccountController extends Controller
 
     public function accountEmailPage(){
         if(Auth::check()){
-            return Inertia::render("AccountPages/UserAccountEmail");
+            $user = Auth::user();
+            return Inertia::render("AccountPages/UserAccountEmail",['currentEmail'=>$user->email]);
         }else{
             return redirect()->route("login");
         }
@@ -144,9 +148,61 @@ class UserAccountController extends Controller
         ]);
 
         $user = Auth::user();
-        $user->email = $request->email;
+        $user->email = $validate['email'];
         $user->save();
 
         return redirect()->route('account');
+    }
+
+    public function accountPasswordPage(){
+        if(Auth::check()){
+            return Inertia::render("AccountPages/UserAccountPassword");
+        }else{
+            return redirect()->route("login");
+        }
+    }
+
+    public function updatePassword(Request $request){
+        $validate = $request->validate([
+            'password'=>['required',
+                          Password::min(6)
+                            ->letters()
+                            ->mixedCase()
+                            ->numbers()
+                            ->symbols(),'confirmed'],
+            'password_confirmation'=>['required']
+        ]);
+
+        $user = Auth::user();
+        $user->password = Hash::make($validate['password']);
+        $user->save();
+        return redirect()->route('account');
+    }
+
+    public function accountFavouritePage(){
+        if(Auth::check()){
+            $user=Auth::user();
+            $favTeams = $this->grabFavouriteTeams($user->id);
+            return Inertia::render("AccountPages/UserAccountFavourites",[
+                'favTeams'=>$favTeams,
+                'userid'=>$user->id
+            ]);
+        }else{
+            return redirect()->route("login");
+        }
+    }
+
+    public function deleteFavourite($id){
+        $validator =Validator::make(['id'=>$id],[
+            'id'=>['integer']
+        ]);
+
+        $validated = $validator->validated();
+        $user = Auth::user();
+        $team = Team::where('prem_id',$validated['id'])->first();
+        $favouriteTeam = Favorite::where('user_id',$user->id)->where('team_id',$team->id)->first();
+        $favouriteTeam->delete();
+
+        return redirect()->route("favourites");
     }
 }
