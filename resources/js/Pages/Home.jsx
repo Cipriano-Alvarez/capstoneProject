@@ -1,21 +1,45 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import AuthLayout from "@/Layouts/AuthLayout";
 import { usePage } from "@inertiajs/react";
+import {Link} from "@inertiajs/react";
 
 
 
-
-function isAuth(Auth){
-    console.log(Auth)
-}
-function printResults(results){
-    console.log(results);
+function DrawArticles({articles}){
+    return(
+<div className="mt-10">
+            <table className=" border border-gray-400">
+                <thead>
+                    <tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    {articles["data"].map((item,index)=>(
+                        <tr key={index} className="border border-gray-400 border-t-0">
+                            <td className=" p-1 ">
+                                <a className=" underline text-gray-400 hover:text-sky-400  hover:text-sky-600 hover:underline decoration-solid " href={item["website_link"]}>{item['title']}</a>
+                                <p className="ps-2 pt-2 pe-2">{item['description']}</p>
+                                <p className="text-sm text-end pt-5">Date Added:{item['created_at'].substring(0,10)}</p>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <div className="flex flex-inline w-full text-center justify-center mt-5">
+                
+                {articles["prev_page_url"] == null ?<Link className="text-xl hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href="#" onClick={(e)=>e.preventDefault()}>Prev</Link>:
+                <Link className="text-xl hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href={articles["prev_page_url"]}>Prev</Link>}
+                {articles['next_page_url'] == null ? <Link className="ms-10 text-xl hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href={articles["next_page_url"]} onClick={(e)=>e.preventDefault()} >Next</Link>:
+                <Link className="ms-10 text-xl  hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href={articles["next_page_url"]}>Next</Link>}    
+            </div>
+        </div>
+    )
 }
 
 function DrawStandings(standingsData){
     return(
-        <div className="mt-5">
-            <table className=" table-auto">
+        <div className="mt-5 ">
+            <table className="table-auto">
                 <thead>
                     <tr className="border text-sm">
                         <th  className="text-start border">Club</th>
@@ -31,10 +55,10 @@ function DrawStandings(standingsData){
                 </thead>
                 <tbody className="">
                     {standingsData["standings"]["0"].map((item,index)=>(
-                        <tr className="mt-5 border">
-                            <td colSpan={4} key={index} className="flex">
+                        <tr className="mt-5 border" key={index}>
+                            <td colSpan={4}  className="flex">
                                 <p className="pe-5 ps-2">{item["rank"] + " " }</p>
-                                <img src={item["team"]["logo"]} className="size-8 "/>
+                                <img src={item["team"]["logo"]} className="size-6 "/>
                                 <p className="ps-3">{item["team"]["name"]}</p> 
                             </td>
                             <td className="ps-2 border-s text-center">
@@ -71,20 +95,23 @@ function DrawStandings(standingsData){
 
 export default function Home( Auth ){
     const {results} = usePage().props;
+    const props = usePage().props
 
     if (Auth.auth.user !== null ) {
         return (
             <AuthLayout
                 name={Auth.auth.user.first_name + " " +Auth.auth.user.last_name}
             >
-                <div>{isAuth(Auth)}</div>
-                <div className="grid grid-cols-4 gap-1">
-                    <section className="col-start-2">
-                        <h3 className="text-5xl">Premier League Standings</h3>
+                {console.log(props)}
+                <div className="flex flex-inline justify-center">
+                    
+                    <section className="">
+                        <h3 className="text-5xl pe-10 ">Premier League <br/>Standings</h3>
                         <div>{DrawStandings(results["response"]["0"]["league"])}</div>
                     </section>
-                    <section className="col-start-3 text-center">
+                    <section className="ms-48 pt-10 text-center">
                         <h3 className="text-5xl">Articles </h3>
+                        <DrawArticles articles={props.articles}/>
                     </section>
                 </div>
             </AuthLayout>
@@ -93,13 +120,13 @@ export default function Home( Auth ){
     return (
         <GuestLayout>
             <div className="grid grid-cols-4 gap-1">
-                <div>{printResults(results["response"]["0"]["league"]["standings"][0])}</div>
                 <section className="col-start-2">
                     <h3 className="text-3xl">Premier League Standings</h3>
                     <div>{DrawStandings(results["response"]["0"]["league"])}</div>
                 </section>
                 <section className="col-start-3 text-center">
                     <h3 className="text-3xl">Articles </h3>
+                    <DrawArticles articles={props.articles}/>
                 </section>
             </div>
         </GuestLayout>

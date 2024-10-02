@@ -7,12 +7,14 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Favorite;
 use App\Models\Team;
+use App\Models\Article;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Validator;
 
 
 class AdminAccountController extends Controller
@@ -170,6 +172,80 @@ class AdminAccountController extends Controller
             }
             
         }else{
+            return redirect()->route('login');
+        }
+    }
+
+    public function ArticlePage(){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+            
+    
+            if($role->role =='admin'){
+                return Inertia::render("AdminAccountPages/Articles",[
+                    'articles' => Article::paginate(5)
+                ]);
+            }else{
+                return redirect()->route('home');
+            }
+        }else{
+    
+            return redirect()->route('login');
+        }
+    }
+
+    public function AddArticle(Request $request){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+            
+    
+            if($role->role =='admin'){
+
+                $validated = $request->validate([
+                    'title'=> ['max:50','required'],
+                    'link'=>['active_url','url:https,http','required'],
+                    'description'=>['required','string']
+                ]);
+
+                $article = new Article;
+                $article->title = $validated['title'];
+                $article->website_link = $validated['link'];
+                $article->description = $validated['description'];
+                $article->save();
+
+                return redirect()->route('articles');
+            }else{
+                return redirect()->route('home');
+            }
+        }else{
+    
+            return redirect()->route('login');
+        }
+    }
+
+    public function DeleteArticle($id){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+            
+    
+            if($role->role =='admin'){
+                $validator =Validator::make(['id'=>$id],[
+                    'id'=>['integer']
+                ]);
+
+                $validated = $validator->validated();
+                $article = Article::where('id',$validated['id'])->first();
+                $article->delete();
+
+                return redirect()->route('articles');
+            }else{
+                return redirect()->route('home');
+            }
+        }else{
+    
             return redirect()->route('login');
         }
     }

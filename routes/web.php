@@ -5,12 +5,12 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\SoccerApiController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\AdminAccountController;
 
 
-Route::get("/", [SoccerApiController::class,'home'])->name("home");
+Route::get("/", [HomeController::class,'home'])->name("home");
 
 
 
@@ -42,11 +42,14 @@ Route::controller(AdminAccountController::class)->group(function(){
     Route::get('/adminAccount','adminAccount')->name('admin');
     Route::put('/adminAccount/updatePassword','UpdatePassword');
     Route::get('/adminAccount/password/UpdatePassword','AdminPasswordPage')->name('updatePassword');
-    Route::get('/adminAccount/email/UpdateEmail','EmailPage')->name('updateEmail');
+    Route::get('/adminAccount/email/UpdateEmail','EmailPage')->name('newEmail');
     Route::put('/adminAccount/updateEmail','UpdateEmail');
     Route::get('/adminAccount/user/updateUser','UpdateUserPage')->name("updateUser");
     Route::get('/adminAccount/user/grabUser/{email}','GrabUser');
     Route::put('/adminAccount/user/updateUser','UpdateUser');
+    Route::get('/adminAccount/articles','ArticlePage')->name('articles');
+    Route::post('/adminAccount/articles','AddArticle');
+    Route::delete('/adminAccount/articles/delete/{id}','DeleteArticle');
 });
 require __DIR__.'/auth.php';
 

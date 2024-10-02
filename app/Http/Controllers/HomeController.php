@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
-
-class SoccerApiController extends Controller
+use App\Models\Article;
+class HomeController extends Controller
 {
 
 
@@ -29,7 +29,8 @@ class SoccerApiController extends Controller
     {
         $request = $this->getStandings();
         return Inertia::render('Home',[
-           'results'=> $request->json()
+           'results'=> $request->json(),
+           'articles' => Article::paginate(5)
         ]);
         
     }

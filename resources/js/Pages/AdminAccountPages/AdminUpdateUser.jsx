@@ -22,6 +22,7 @@ export default function AdminAccount(Auth){
         router.get("/adminAccount/user/grabUser/"+userEmail)};
     }
 
+    // this function creates the form to update the user
     function UserForm({data}){
         const [newEmail,onChangeNewEmail] = useState(data["email"]);
         const [newLastName, onChangeNewLastName] = useState(data["last_name"]);
