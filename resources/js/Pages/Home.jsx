@@ -19,7 +19,7 @@ function DrawArticles({articles}){
                             <td className=" p-1 ">
                                 <a className=" underline text-gray-400 hover:text-sky-400  hover:text-sky-600 hover:underline decoration-solid " href={item["website_link"]}>{item['title']}</a>
                                 <p className="ps-2 pt-2 pe-2">{item['description']}</p>
-                                <p className="text-sm text-end pt-5">Date Added:{item['created_at'].substring(0,10)}</p>
+                                <p className="text-sm text-end pt-5">Date: {item['created_at'].substring(0,10)}</p>
                             </td>
                         </tr>
                     ))}
@@ -102,15 +102,14 @@ export default function Home( Auth ){
             <AuthLayout
                 name={Auth.auth.user.first_name + " " +Auth.auth.user.last_name}
             >
-                {console.log(props)}
                 <div className="flex flex-inline justify-center">
                     
                     <section className="">
-                        <h3 className="text-5xl pe-10 ">Premier League <br/>Standings</h3>
+                        <h3 className="text-3xl pe-10 ">Premier League <br/>Standings</h3>
                         <div>{DrawStandings(results["response"]["0"]["league"])}</div>
                     </section>
                     <section className="ms-48 pt-10 text-center">
-                        <h3 className="text-5xl">Articles </h3>
+                        <h3 className="text-3xl">Articles </h3>
                         <DrawArticles articles={props.articles}/>
                     </section>
                 </div>
@@ -119,16 +118,17 @@ export default function Home( Auth ){
     }else{
     return (
         <GuestLayout>
-            <div className="grid grid-cols-4 gap-1">
-                <section className="col-start-2">
-                    <h3 className="text-3xl">Premier League Standings</h3>
-                    <div>{DrawStandings(results["response"]["0"]["league"])}</div>
-                </section>
-                <section className="col-start-3 text-center">
-                    <h3 className="text-3xl">Articles </h3>
-                    <DrawArticles articles={props.articles}/>
-                </section>
-            </div>
+                <div className="flex flex-inline justify-center">
+                    {console.log(props)}
+                    <section className="">
+                        <h3 className="text-3xl pe-10 ">Premier League <br/>Standings</h3>
+                        <div>{DrawStandings(results["response"]["0"]["league"])}</div>
+                    </section>
+                    <section className="ms-48 pt-10 text-center">
+                        <h3 className="text-3xl">Articles </h3>
+                        <DrawArticles articles={props.articles}/>
+                    </section>
+                </div>
         </GuestLayout>
     )
     }

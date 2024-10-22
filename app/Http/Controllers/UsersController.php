@@ -25,7 +25,8 @@ class UsersController extends Controller
     }
     public function signup(){
         if(!Auth::check()){
-        return Inertia::render('SignUp');}else{
+        return Inertia::render('SignUp');}
+        else{
             return redirect()->route('home');
         }
     }

@@ -10,6 +10,12 @@ class HomeController extends Controller
 {
 
 
+    public function __construct(){
+        $this->TPL = [];
+        $this->TPL["standings"] = $this->getStandings()->json();
+        
+    }
+
     public function getStandings(){
         $request = Http::withHeaders([
             'x-rapidapi-host' => 'v3.football.api-sports.io',
@@ -17,6 +23,7 @@ class HomeController extends Controller
         ])->get('https://v3.football.api-sports.io/standings',[
             	'league' => '39',
 	            'season' => '2024'
+                
         ]);
 
         return ($request);
@@ -29,7 +36,7 @@ class HomeController extends Controller
     {
         $request = $this->getStandings();
         return Inertia::render('Home',[
-           'results'=> $request->json(),
+           'results'=> $this->TPL["standings"],
            'articles' => Article::paginate(5)
         ]);
         

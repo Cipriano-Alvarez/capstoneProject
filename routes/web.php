@@ -8,6 +8,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\AdminAccountController;
+use App\Http\Controllers\PremierLeagueController;
 
 
 Route::get("/", [HomeController::class,'home'])->name("home");
@@ -50,6 +51,12 @@ Route::controller(AdminAccountController::class)->group(function(){
     Route::get('/adminAccount/articles','ArticlePage')->name('articles');
     Route::post('/adminAccount/articles','AddArticle');
     Route::delete('/adminAccount/articles/delete/{id}','DeleteArticle');
+})->middleware("auth");
+
+Route::controller(PremierLeagueController::class)->group(function(){
+    Route::get('/premierleague','PremierLeague')->name('premierleague');
+    Route::get('/premierleague/fixture/{id}','GetMatchInfoPage');
+    Route::get('/premierleague/team/{id}','GetTeamStats');
 });
 require __DIR__.'/auth.php';
 

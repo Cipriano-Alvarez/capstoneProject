@@ -14,7 +14,7 @@ export default function GuestLayout({ children }) {
                         <ul className="grid grid-cols-3">
                             <div className="flex flex-row col-start-1 col-end-2 ml-3">
                                 <li><NavLink className="text-xl mr-3" href={route("home")} active={route().current("home")}>Home</NavLink></li>
-                                <li><NavLink className="text-xl mr-3" href="#" >Premier League</NavLink></li>
+                                <li><NavLink className="text-xl mr-3" href={route("premierleague")} active={route().current("premierleague")} >Premier League</NavLink></li>
                                 <li><NavLink className="text-xl" href="#" >Bets</NavLink></li>
                             </div>
                             <div className="flex flex-row col-start-3 justify-end mr-14">
