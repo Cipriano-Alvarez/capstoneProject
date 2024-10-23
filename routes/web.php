@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\AdminAccountController;
 use App\Http\Controllers\PremierLeagueController;
+use App\Http\Controllers\BetsController;
 
 
 Route::get("/", [HomeController::class,'home'])->name("home");
@@ -58,6 +59,12 @@ Route::controller(PremierLeagueController::class)->group(function(){
     Route::get('/premierleague/fixture/{id}','GetMatchInfoPage');
     Route::get('/premierleague/team/{id}','GetTeamStats');
 });
+
+Route::controller(BetsController::class)->group(function(){
+    Route::get('/bets','Bets')->name('bets');
+});
+
+
 require __DIR__.'/auth.php';
 
 
