@@ -8,11 +8,13 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Favorite;
 use App\Models\Team;
+use App\Models\Bet;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 
 class UserAccountController extends Controller
@@ -32,11 +34,30 @@ class UserAccountController extends Controller
         $user = Auth::user();
         $role = Role::where('id','=',$user->role_id)->first();
         
+        $wins = Bet::where('user_id',$user->id)->where('outcome','correct')->count();
+        $loses = Bet::where('user_id',$user->id)->where('outcome','incorrect')->count();
+
+        $allBets = Bet::where('user_id',$user->id)->get();
+        $teamTotals = [];
+
+        foreach($allBets as $bet){
+            if(isset($teamTotals[$bet['choice']])){
+                $teamTotals[$bet['choice']]['count'] += 1;
+            }else{
+                $teamTotals[$bet['choice']]=[
+                    'name'=>$bet['choice'],
+                    'count'=>1
+                ];
+            }
+        }
 
         if($role->role =='user'){
             $favTeams = $this->grabFavouriteTeams($user->id);
             return Inertia::render("AccountPages/UserAccount",[
                 'favTeams' => $favTeams,
+                'loses' => $loses,
+                'wins'=>$wins,
+                'teams'=>$teamTotals
             ]);
         }else{
             return redirect()->route('admin');

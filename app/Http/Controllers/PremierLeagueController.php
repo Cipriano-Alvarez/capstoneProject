@@ -37,7 +37,7 @@ class PremierLeagueController extends Controller
 	            'season' => $date->year,
                 'next'=> 10
         ]);
-
+        
         return $request->json();
     }
     public function getTeams(){

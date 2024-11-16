@@ -8,7 +8,7 @@ export default function AdminAccountSideNav({Name}){
                 <li className="text-2xl border-b-2 pb-2"><Link href={route("newEmail")}>Email</Link></li>
                 <li className="text-2xl border-b-2 pb-2"><Link href={route("updatePassword")} >Password</Link></li>
                 <li className="text-2xl border-b-2 pb-2"><Link href={route("updateUser")} >Update User</Link></li>
-                <li className="text-2xl border-b-2 pb-2"><Link href={route("articles")}>Update Bet</Link></li>
+                <li className="text-2xl border-b-2 pb-2"><Link href={route("updatebet")}>Update Bet</Link></li>
                 <li className="text-2xl border-b-2 pb-2"><Link href={route("articles")}>Articles</Link></li>
             </ul>
         </div>

@@ -10,7 +10,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 
 
-export default function AdminAccount(Auth){
+export default function AdminUpdateUser(Auth){
     const props = usePage().props;
     const [userEmail, onChangeUserEmail] = useState("");
    

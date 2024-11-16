@@ -18,7 +18,7 @@ function DrawTeams({teams}){
     <div className="">
         <ul className="flex flex-row justify-center">
             {teams.response.map((item,index)=>(
-                <li key={index} onClick={()=>{
+                <li className="cursor-pointer" key={index} onClick={()=>{
                     getTeam(item.team.id)
                 }
                 }>
@@ -28,6 +28,8 @@ function DrawTeams({teams}){
         </ul>
     </div>)
 }
+
+
 
 function DrawStats({stats,players,matches,rank}){
     const statsClass= "bg-slate-50 border border-slate-200 size-1/3 m-1 p-2";
@@ -49,6 +51,9 @@ function DrawStats({stats,players,matches,rank}){
             avg:stats.avgPoints
         }
     ]
+    console.log(matches);
+
+
 
     return(
         <div className=" ms-1 w-full border-t border-slate-300">
@@ -234,6 +239,14 @@ function DrawMatch({match,odds,awayForm,homeForm}){
         }
     }
 
+    function convertTime(time){
+        var localDate = new Date(time); 
+        if(localDate.toString()[16] == "0"){
+            return localDate.toString().substring(17,21);
+        }
+        return localDate.toString().substring(16,21);
+    }
+
 const logoImage= "size-14"
 const oddsClass="text-lg"
 const homeDecimalOdds = odds.response[0].bookmakers[0].bets[0].values[0].odd;
@@ -330,7 +343,7 @@ function cardTotal(cardArray){
                 <p className={oddsClass + " me-5 " + colourHome}>Odds : {homeOdds}</p>
                 <img className={logoImage} src={match.response[0].teams.home.logo}/>
             </div>
-            <p className="text-xl ms-20 me-20  ">{odds.response[0].fixture.date.substring(5,10)}<br/> {odds.response[0].fixture.date.substring(11,16)}</p>
+            <p className="text-xl ms-20 me-20  ">{odds.response[0].fixture.date.substring(5,10)}<br/> {convertTime(odds.response[0].fixture.date)}</p>
             
             <div className="flex flex-row justify-center ">
                 <img className={logoImage} src={match.response[0].teams.away.logo}/>

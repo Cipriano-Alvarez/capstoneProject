@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\Bet;
+use Carbon\Carbon;
 
 class AdminAccountController extends Controller
 {
@@ -24,10 +25,37 @@ class AdminAccountController extends Controller
         if(Auth::check()){
             $user = Auth::user();
             $role = Role::where('id','=',$user->role_id)->first();
+
+            $correctBets =Bet::where('outcome','correct')->get();
+            $incorrectBets = Bet::where('outcome','incorrect')->get();     
+            $totalBets = Bet::all();
+            $fixtures = Bet::whereIn('fixture_id',$this->grabFixtures())->get();
+
+            $teamTotals = [];
+            foreach($fixtures as $fixture){
+                if(!isset($teamTotals[$fixture['choice']])){
+                    $teamTotals[$fixture['choice']] =[
+                        'name'=>$fixture['choice'],
+                        'count'=>1
+                    ];
+                }else{
+                    $teamTotals[$fixture['choice']]['count'] = $teamTotals[$fixture['choice']]['count'] + 1 ;
+                }
+            }
+
             
+
+
     
             if($role->role =='admin'){
-                return Inertia::render("AdminAccountPages/AdminAccount");
+                return Inertia::render("AdminAccountPages/AdminAccount",[
+                  'data' => [ 
+                            'wins'=>count($correctBets),
+                            'loses'=>count($incorrectBets),
+                            'total'=>count($totalBets),
+                            'fixtures'=>$teamTotals,
+                            ]
+                ]);
             }else{
                 return redirect()->route('home');
             }
@@ -36,6 +64,27 @@ class AdminAccountController extends Controller
             return redirect()->route('login');
         }
     }
+
+    public function grabFixtures(){
+        $date = Carbon::now();
+        $request = Http::withHeaders([
+            'x-rapidapi-host' => 'v3.football.api-sports.io',
+	        'x-rapidapi-key' => '5acf3f81fa9c79d04e7a990888463cfc'
+        ])->get('https://v3.football.api-sports.io/fixtures',[
+            	'league' => '39',
+	            'season' => $date->year,
+                'next'=> 10
+        ]);
+        $matches = $request->json();
+        $fixtures = [];
+
+        foreach($matches['response'] as $match){
+            array_push($fixtures,$match['fixture']['id']);
+        }
+        return $fixtures;
+    }
+
+
     public function UpdatePassword(Request $request){
         $validate = $request->validate([
             'password'=>['required',
@@ -247,6 +296,140 @@ class AdminAccountController extends Controller
         }else{
     
             return redirect()->route('login');
+        }
+    }
+
+    public function UpdateBetPage(){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+
+            if($role->role == 'admin'){ 
+                return Inertia::render('AdminAccountPages/AdminAccountUpdateBet');
+            }else{
+                return redirect()->route('home');
+            }
+
+        }else{
+            return redirect()->route('home');
+        }
+    }
+    public function GrabUsersBets($id){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+
+            if($role->role == 'admin'){
+                
+                try{
+                    $editableUser = User::where('email',$id)->firstOrFail();
+                    $bets = Bet::where('user_id', $editableUser->id)->where('outcome','tbd')->paginate(5,['id','fixture_id','choice','outcome']);
+
+                    $idString = "";
+                    foreach($bets as $bet){
+                        if(strlen($idString) == 0){
+                            $idString = $bet->fixture_id;
+                        }else{
+                            $idString = $idString."-".$bet->fixture_id;
+                        }
+                    }
+                    $fixtures = $this->grabUsersFixtures($idString);
+                    $teams = [];
+                    foreach($fixtures as $fixture){
+                            $game = [
+                                'hometeam'=>$fixture['teams']['home']['name'],
+                                'awayteam'=>$fixture['teams']['away']['name'],
+                                'fixture_id'=>$fixture['fixture']['id']
+                            ];
+                            $teams[$fixture['fixture']['id']] = $game;
+                    }
+
+                    return Inertia::render("AdminAccountPages/AdminAccountUpdateBet",[
+                        "bets"=>$bets,
+                        "fixtures"=>$teams,
+                        "user" =>true
+                    ]);}catch(ModelNotFoundException $e){
+                        return Inertia::render('AdminAccountPages/AdminAccountUpdateBet', [
+                            'errors'=>["userError"=>"user not found"],
+                            "status"=>404
+                        ]);
+                    }
+
+                
+            }else{
+                return redirect()->route('home');
+            }
+
+        }else{
+            return redirect()->route('home');
+        }
+    }
+
+    public function grabUsersFixtures($ids){
+        $request = Http::withHeaders([
+            'x-rapidapi-host' => 'v3.football.api-sports.io',
+	        'x-rapidapi-key' => '5acf3f81fa9c79d04e7a990888463cfc'
+        ])->get('https://v3.football.api-sports.io/fixtures',[
+            	'ids'=>$ids
+        ]);
+            $fixtures = $request->json();
+
+        return $fixtures['response'];
+
+    }
+
+    public function UpdateChoice(Request $request){
+
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+
+            if($role->role == 'admin'){
+                
+                $validate = $request->validate([
+                    'newchoice'=>['required','string'],
+                    'betid'=>['required','integer']
+                ]);
+                
+                $bet = Bet::where('id',$validate['betid'])->first();
+                $bet->choice = $validate['newchoice'];
+                $bet->save();
+                return redirect()->back();
+
+                
+            }else{
+                return redirect()->route('home');
+            }
+
+        }else{
+            return redirect()->route('home');
+        }
+    }
+
+    public function DeleteBet($id){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+
+            if($role->role == 'admin'){
+                $validator =Validator::make(['id'=>$id],[
+                    'id'=>['integer']
+                ]);
+
+                $validated = $validator->validated();
+                
+                $bet = Bet::where('id',$validated['id'])->first();
+                
+                $bet->delete();
+                return redirect()->back();
+
+                
+            }else{
+                return redirect()->route('home');
+            }
+
+        }else{
+            return redirect()->route('home');
         }
     }
 

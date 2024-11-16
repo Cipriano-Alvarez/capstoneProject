@@ -6,7 +6,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function UserAccountEmail(Auth){
+export default function AdminAccountEmail(Auth){
     const props = usePage().props;
     const [email, onChangeEmail] = useState("");
 

@@ -32,10 +32,12 @@ const login = (errors) =>{
                 <form onSubmit={handlesubmit}>
                     <InputLabel className="text-2xl ">Email</InputLabel>
                     <TextInput
+                        autoFocus={true}
                         value={email}
                         onChange={(event)=>{
                             onChangeEmail(event.target.value)
                         }}
+                        
                     />
                     <InputLabel className="text-2xl pt-5">Password</InputLabel>
                     <TextInput

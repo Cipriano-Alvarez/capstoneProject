@@ -52,6 +52,10 @@ Route::controller(AdminAccountController::class)->group(function(){
     Route::get('/adminAccount/articles','ArticlePage')->name('articles');
     Route::post('/adminAccount/articles','AddArticle');
     Route::delete('/adminAccount/articles/delete/{id}','DeleteArticle');
+    Route::get('/adminAccount/updatebet','UpdateBetPage')->name('updatebet');
+    Route::get('/adminAccount/updatebet/grabuser/{id}','GrabUsersBets');
+    Route::put('/adminAccount/updatebet/newchoice','UpdateChoice');
+    Route::delete('/adminAccount/deletebet/{id}','DeleteBet');
 })->middleware("auth");
 
 Route::controller(PremierLeagueController::class)->group(function(){
@@ -62,8 +66,13 @@ Route::controller(PremierLeagueController::class)->group(function(){
 
 Route::controller(BetsController::class)->group(function(){
     Route::get('/bets','Bets')->name('bets');
+    Route::get('/bets/match/{id}','GetMatch');
+    Route::post('/bets/match','AddBet');
+    Route::post('/bets/comment','AddComment');
+    Route::post('/bets/reportedcomment','AddReportedPost');
+    Route::post('/bets/addfavourite','AddFavourite');
+    Route::delete('/bets/comment/delete/{id}','DeletePost');
 });
-
 
 require __DIR__.'/auth.php';
 

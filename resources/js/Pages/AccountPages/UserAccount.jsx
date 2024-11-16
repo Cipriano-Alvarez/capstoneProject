@@ -2,6 +2,7 @@ import AuthLayout from "@/Layouts/AuthLayout";
 import { Link, usePage,router} from "@inertiajs/react";
 import UserAccountSideNav from "@/Pages/AccountPages/shared/UserAccountSideNav";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,Label } from "recharts";
 
 
 function Favourites(teams){
@@ -9,7 +10,7 @@ return(
     <ul className="inline-flex size-1/4 space-x-2 mt-5 ">
         {/* {console.log(teams)} */}
         {teams["team"].map((item,index)=>(
-            <li  onClick={teamClick} key={index}>
+            <li  onClick={teamClick} className="cursor-pointer" key={index}>
                 <img id={item["id"]} src={item["logo"]}/>
             </li>
             
@@ -70,8 +71,63 @@ function ShowTeamInfo({Fixtures,Record,MatchHistory}){
     )
 }
 
+function DrawGraphs({wins,loses,teams}){
+    const data = [
+        {
+            'title':'wins',
+            'count':wins
+        },
+        {
+            'title':'loses',
+            'count':loses
+        }
+    ]
+
+    const teamData = [];
+    for(const key in teams){
+        teamData.push({
+            'name':teams[key].name,
+            'count': teams[key].count
+        });
+    }
+
+    return(
+        <div className="flex flex-row ms-5 mt-5">
+            <BarChart width={500} height={250} data={data} margin={{bottom: 10,right:5}}>
+
+                <XAxis dataKey="title" >
+                    <Label value="Wins vs Losses" offset={0} position="insideBottom" />
+                </XAxis>
+
+                <Tooltip />
+
+                <Bar dataKey="count" fill="#8884d8"  />
+
+
+            </BarChart>
+
+            <BarChart className="mb-5" width={500} height={250} data={teamData} margin={{bottom: 10,left:5}}>
+
+                <XAxis dataKey="name"  >
+                    <Label  value="Teams" offset={-5} position="bottom" />
+                </XAxis>
+
+                <Tooltip />
+
+                <Bar dataKey="count" fill="gray"  />
+
+
+            </BarChart>
+        
+        </div>
+    )
+}
+
+
+
 export default function UserAccount(Auth){
     const props = usePage().props;
+    console.log(props)
 
     return(
     <AuthLayout
@@ -85,7 +141,7 @@ export default function UserAccount(Auth){
                     <h1 className="text-xl font-medium ">User Account</h1>
                     <div className="">
                         <Favourites team={props['favTeams']}  />
-                        {props['nextFixtures'] != null ? <ShowTeamInfo Fixtures={props['nextFixtures']} Record={props['record']} MatchHistory={props['lastFixtures']}/> : null}
+                        {props['nextFixtures'] != null ? <ShowTeamInfo Fixtures={props['nextFixtures']} Record={props['record']} MatchHistory={props['lastFixtures']}/> : <DrawGraphs wins={props.wins} loses={props.loses} teams={props.teams} />}
                     </div>
                 </div>
 
