@@ -152,6 +152,9 @@ export default function AdminAccountUpdateBet(Auth){
             <div className="grid grid-cols-5">
                 <AdminAccountSideNav Name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]} className="border"/>
                 <div className="col-span-4">
+                    <div>
+                    {props.status !== undefined ? <div className="bg-red-100 border text-center border-red-400 text-red-700 px-4 py-3 rounded relative mt-1" role="alert">{props.errors.userError}</div> : null}
+                    </div>
                     <h1 className="text-center text-2xl">Update Bet</h1>
                     <div className="mt-6 text-center">
                         <form onSubmit={grabUser}>
