@@ -323,7 +323,7 @@ class AdminAccountController extends Controller
                 
                 try{
                     $editableUser = User::where('email',$id)->firstOrFail();
-                    $bets = Bet::where('user_id', $editableUser->id)->where('outcome','tbd')->paginate(5,['id','fixture_id','choice','outcome']);
+                    $bets = Bet::where('user_id', $editableUser->id)->where('outcome','tbd')->latest()->paginate(5,['id','fixture_id','choice','outcome']);
 
                     $idString = "";
                     foreach($bets as $bet){
