@@ -134,7 +134,15 @@ export default function AdminAccountUpdateBet(Auth){
                         ))}
                     </tbody>
                 </table>
-                {isEdit ? <DrawEdit hometeam={homeTeam} awayteam={awayTeam} currBetId={betID} currentValue={currentChoice} /> :null}
+                <div className="flex mt-5 w-full justify-center">
+                    {bets["prev_page_url"] == null ?<Link className="text-xl hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href="#" onClick={(e)=>e.preventDefault()}>Prev</Link>:
+                    <Link className="text-xl hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href={bets["prev_page_url"]}>Prev</Link>}
+                    {bets['next_page_url'] == null ? <Link className="ms-10 text-xl hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href={bets["next_page_url"]} onClick={(e)=>e.preventDefault()} >Next</Link>:
+                    <Link className="ms-10 text-xl hover:text-sky-600 hover:underline decoration-solid hover:text-2xl" href={bets["next_page_url"]}>Next</Link>}    
+                    {isEdit ? <DrawEdit hometeam={homeTeam} awayteam={awayTeam} currBetId={betID} currentValue={currentChoice} /> :null}
+                </div>
+
+
             </div>
                 )
     }
