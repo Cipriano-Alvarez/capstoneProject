@@ -105,7 +105,7 @@ function DrawGraphs({wins,loses,teams}){
 
 
             </BarChart>
-
+            {teamData.length > 0 ? 
             <BarChart className="mb-5" width={500} height={250} data={teamData} margin={{bottom: 10,left:5}}>
 
                 <XAxis dataKey="name"  >
@@ -117,7 +117,7 @@ function DrawGraphs({wins,loses,teams}){
                 <Bar dataKey="count" fill="gray"  />
 
 
-            </BarChart>
+            </BarChart>: null}
         
         </div>
     )
