@@ -42,6 +42,8 @@ Route::controller(UserAccountController::class)->group(function(){
 
 Route::controller(AdminAccountController::class)->group(function(){
     Route::get('/adminAccount','adminAccount')->name('admin');
+    Route::get('/adminAccount/newAdmin', 'NewAdmin')->name('newAdmin');
+    Route::post('/adminAccount/newAdmin/makeAdmin','MakeAdmin');
     Route::put('/adminAccount/updatePassword','UpdatePassword');
     Route::get('/adminAccount/password/UpdatePassword','AdminPasswordPage')->name('updatePassword');
     Route::get('/adminAccount/email/UpdateEmail','EmailPage')->name('newEmail');

@@ -433,4 +433,59 @@ class AdminAccountController extends Controller
         }
     }
 
+    public function NewAdmin(){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+            if($role->role == 'admin'){ 
+                return Inertia::render('AdminAccountPages/AdminAccountNewAdmin');
+            }else{
+                return redirect()->route('home');
+            }
+
+        }else{
+            return redirect()->route("home");
+        }
+    }
+
+    public function MakeAdmin(Request $request){
+        if(Auth::check()){
+            $user = Auth::user();
+            $role = Role::where('id','=',$user->role_id)->first();
+            if($role->role == 'admin'){ 
+                $validated = $request->validate([
+                    'firstname'=> ['required'],
+                    'lastname'=>['required'],
+                    'email'=>['required','email'],
+                    'password'=>['required',
+                     Password::min(6)
+                       ->letters()
+                       ->mixedCase()
+                       ->numbers()
+                       ->symbols(),'confirmed'],
+                    'password_confirmation'=>['required']
+                ]);
+
+                $user = new User;
+                $user->first_name = $validated['firstname'];
+                $user->last_name = $validated['lastname'];
+                $user->password = Hash::make($validated['password']);
+                $user->email = $validated['email'];
+                $userRole = Role::where('role','admin')->first();
+                $user->role_id = $userRole->id;
+                $user->age = 0;
+                $user->save();
+                return redirect()->route("admin");
+
+                
+
+            }else{
+                return redirect()->route('home');
+            }
+
+        }else{
+            return redirect()->route("home");
+        }
+    }
+
 }

@@ -50,7 +50,7 @@ export default function AdminUpdateUser(Auth){
                         
                         />
                         {props.errors.first_name &&
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-1" role="alert" >
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-1 " role="alert" >
                                 {props.errors.first_name}
                             </div>
                         }
@@ -70,7 +70,7 @@ export default function AdminUpdateUser(Auth){
                                 {props.errors.last_name}
                             </div>
                         }
-                        <InputLabel className="text-2xl pt-2 ">Email Name</InputLabel>
+                        <InputLabel className="text-2xl pt-2 ">Email</InputLabel>
                         <TextInput
                         value={newEmail}
                         onChange={(event)=>{
