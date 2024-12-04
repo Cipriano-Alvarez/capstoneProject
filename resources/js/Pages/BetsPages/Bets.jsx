@@ -14,7 +14,7 @@ export default function Bets(Auth){
     const props = usePage().props
 
     
-    console.log(props);
+    
     
     function DrawDisscusionForm({comments,user,fixture_id}){
         const [newComment,onChangeNewComment] = useState("");
@@ -187,7 +187,7 @@ export default function Bets(Auth){
                         setLocation(fixture[0].fixture.venue.name);
                         setFixtureId(fixture[0].fixture.id);
                         setBetChoice(fixture[0].teams.home.name);
-                        //console.log(location);
+                        
                         document.querySelector("#my_modal_1").showModal()
                         
                         }}>

@@ -96,6 +96,7 @@ function DrawStandings(standingsData){
 export default function Home( Auth ){
     const {results} = usePage().props;
     const props = usePage().props
+    
 
     if (Auth.auth.user !== null ) {
         return (
@@ -119,7 +120,7 @@ export default function Home( Auth ){
     return (
         <GuestLayout>
                 <div className="flex flex-inline justify-center">
-                    {console.log(props)}
+ 
                     <section className="">
                         <h3 className="text-3xl pe-10 ">Premier League <br/>Standings</h3>
                         <div>{DrawStandings(results["response"]["0"]["league"])}</div>

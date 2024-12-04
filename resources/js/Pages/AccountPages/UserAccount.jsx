@@ -8,7 +8,7 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 function Favourites(teams){
 return(
     <ul className="inline-flex size-1/4 space-x-2 mt-5 ">
-        {/* {console.log(teams)} */}
+        
         {teams["team"].map((item,index)=>(
             <li  onClick={teamClick} className="cursor-pointer" key={index}>
                 <img id={item["id"]} src={item["logo"]}/>
@@ -127,7 +127,7 @@ function DrawGraphs({wins,loses,teams}){
 
 export default function UserAccount(Auth){
     const props = usePage().props;
-    console.log(props)
+    
 
     return(
     <AuthLayout

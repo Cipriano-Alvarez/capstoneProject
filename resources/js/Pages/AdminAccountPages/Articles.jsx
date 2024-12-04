@@ -63,7 +63,7 @@ export default function Articles(Auth){
             <div className="grid grid-cols-5">
                 <AdminAccountSideNav Name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]} className="border"/>
                 <div className="col-span-4">
-                    {console.log(props)}
+                    
                     <h1 className="text-3xl text-center">Articles</h1>
                     <div className="mt-10 ps-10 pe-10">
                         <form className="bg-slate-200 pt-10 pb-5 border border-gray-300 " onSubmit={submitArticle}>

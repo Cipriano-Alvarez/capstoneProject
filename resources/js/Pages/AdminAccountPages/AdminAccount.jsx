@@ -8,7 +8,7 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 
 export default function AdminAccount(Auth){
     const props = usePage().props;
-    console.log(props)
+    
 
     const data = [
         {

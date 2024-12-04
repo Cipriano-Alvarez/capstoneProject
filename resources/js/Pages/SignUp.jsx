@@ -28,7 +28,7 @@ const signUp = (errors) => {
     }
 
     function showEmailError(errors){
-        console.log(errors)
+        
     }
     return (
         <>

@@ -17,6 +17,7 @@ class HomeController extends Controller
     }
 
     public function getStandings(){
+        try{
         $request = Http::withHeaders([
             'x-rapidapi-host' => 'v3.football.api-sports.io',
 	        'x-rapidapi-key' => '5acf3f81fa9c79d04e7a990888463cfc'
@@ -26,7 +27,9 @@ class HomeController extends Controller
                 
         ]);
 
-        return ($request);
+        return ($request);}catch(Exception $e){
+            return $e;
+        }
     
     
     

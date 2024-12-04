@@ -10,7 +10,7 @@ function DrawTeams({teams}){
     const img = "size-7 m-1 hover:border-2 hover:border-black hover:rounded-full hover:size-12 hover:p-1";
 
     function getTeam(id){
-        console.log(id)
+        
         router.get("/premierleague/team/"+id)
     }
 
@@ -51,15 +51,14 @@ function DrawStats({stats,players,matches,rank}){
             avg:stats.avgPoints
         }
     ]
-    console.log(matches);
-
+    
 
 
     return(
         <div className=" ms-1 w-full border-t border-slate-300">
             <div className="flex flex-row justify-center mt-5">
             <Link href={route("premierleague")} className="justify-self-start text-sm me-10"><img className="size-5" src="\images\back.png"/></Link>
-                {/* {console.log(players)} */}
+                
                 <div className="size-1/5">
                     <img className="size-24 " src={stats.logo}/>
                 </div>
@@ -428,7 +427,7 @@ function Page({props}){
     
     return(
         <div className="grid gap-0 grid-cols-3">
-            {/* {console.log(props)} */}
+            
             <section className="text-center col-span-1">
                 <h1 className="text-3xl">Upcoming matches</h1>
                 <DrawMatches matches={props.matches}/>

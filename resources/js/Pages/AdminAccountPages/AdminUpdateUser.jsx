@@ -146,7 +146,7 @@ export default function AdminUpdateUser(Auth){
                                 Search
                             </SecondaryButton>
                         </form>
-                        {console.log(props)}
+                        
                         <div className="mt-14">
                             {props.user !== undefined? <UserForm data={props.user} errors={props.errors} /> : null}
                         </div>

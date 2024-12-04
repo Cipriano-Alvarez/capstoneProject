@@ -22,7 +22,7 @@ export default function AdminAccountUpdateBet(Auth){
 
 
 
-    console.log(props)
+    
     
     function grabUser(e){
         e.preventDefault();
@@ -70,7 +70,7 @@ export default function AdminAccountUpdateBet(Auth){
             
             function updateBet(event){
                 event.preventDefault()
-                console.log(newChoice.value)
+                
                 const newData = {
                     'newchoice': newChoice.value,
                     'betid':currBetId

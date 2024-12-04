@@ -19,7 +19,7 @@ export default function UserAccountFavourites(Auth){
 
         <AuthLayout name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]}   className="relative">
             <div className="grid grid-cols-5">
-                {console.log(props)}
+                
                 <UserAccountSideNav Name={Auth["auth"]["user"]["first_name"] + " " +Auth["auth"]["user"]["last_name"]} />
                 <div className="col-span-4">
                     <h1 className="text-3xl  text-center">Update Favourite Teams</h1>
