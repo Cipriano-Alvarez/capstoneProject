@@ -164,7 +164,7 @@ export default function Bets(Auth){
         return(
             <div className="w-full">
                 <div className="flex flex-row justify-center w-full">
-                    <img src={fixture[0].teams.home.logo} className="size-20 me-20" onClick={()=>{
+                    <img src={fixture[0].teams.home.logo} className="size-20 me-20 hover:cursor-pointer " onClick={()=>{
                         setTeamId(fixture[0].teams.home.id);
                         setTeamImg(fixture[0].teams.home.logo)
                         setTeamName(fixture[0].teams.home.name)
@@ -173,7 +173,7 @@ export default function Bets(Auth){
                     
                     />
                     <p className="text-5xl"> vs </p>
-                    <img src={fixture[0].teams.away.logo} className="size-20 ms-20" onClick={()=>{
+                    <img src={fixture[0].teams.away.logo} className="size-20 ms-20 hover:cursor-pointer" onClick={()=>{
                         setTeamId(fixture[0].teams.away.id)
                         setTeamImg(fixture[0].teams.away.logo)
                         setTeamName(fixture[0].teams.away.name)
@@ -183,7 +183,7 @@ export default function Bets(Auth){
                     />
                 </div>
                 <div className="flex flex-row justify-center gap-0 text-3xl  me-60 ms-60  mt-5 ">
-                    <div className="bg-slate-200 border border-slate-400 rounded-s-xl text-center" onClick={()=>{
+                    <div className="bg-slate-200 border border-slate-400 rounded-s-xl text-center hover:cursor-pointer" onClick={()=>{
                         setLocation(fixture[0].fixture.venue.name);
                         setFixtureId(fixture[0].fixture.id);
                         setBetChoice(fixture[0].teams.home.name);
@@ -202,7 +202,7 @@ export default function Bets(Auth){
                     <div>
                         <DrawFavModal teamid={teamId} teamImg={teamImg} teamName={teamName}/>
                     </div>
-                    <div className="bg-slate-200 border text-center border-slate-400" onClick={()=>{
+                    <div className="bg-slate-200 border text-center border-slate-400 hover:cursor-pointer" onClick={()=>{
                         setLocation(fixture[0].fixture.venue.name);
                         setFixtureId(fixture[0].fixture.id);
                         setBetChoice("DRAW")
@@ -214,7 +214,7 @@ export default function Bets(Auth){
                         <p className="text-lg">draw</p>
                     </div>
                     
-                    <div className="bg-slate-200 text-center border border-slate-400 rounded-e-xl " onClick={()=>{
+                    <div className="bg-slate-200 text-center border border-slate-400 rounded-e-xl hover:cursor-pointer " onClick={()=>{
 
 
                         setLocation(fixture[0].fixture.venue.name);
